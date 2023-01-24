@@ -27,8 +27,9 @@ export default function App() {
     setSelectedTask(item);
   }
 
-  const onHandleDelete = (item) => {
-
+  const onHandleDelete = () => {
+    setTasks((prevTaskList) => prevTaskList.filter((task) => task.id != selectedTask.id));
+    setIsModalVisible(!isModalVisible);
   }
 
   const onHandleCancel = () => {
