@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, View, Button } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Button, FlatList, Modal } from 'react-native';
 
 export default function App() {
   const [task, setTask] = useState('');
   const [tasks, setTasks] = useState([]);
+
 
   const onHandlerChange = (text) => {
     setTask(text);
@@ -18,7 +19,18 @@ export default function App() {
       }
     ]);
     setTask('');
-  }
+  };
+
+  const renderItem = ({ item }) => (
+    <View style={styles.itemContainer}>
+      <Text style={styles.itemList}>
+        {item.value}
+      </Text>
+    </View>
+  );
+
+  const keyExtractor = (item) => item.id;
+
   return (
 
     <View style={styles.container}>
@@ -37,19 +49,12 @@ export default function App() {
           disabled={!task}
         />
       </View>
-      <View style={styles.listContainer}>
-        {
-          tasks.map((item) => (
-            <View style={styles.itemContainer}>
-              <Text key={item.id}
-                style={styles.itemList}
-              >
-                {item.value}
-              </Text>
-            </View>
-          ))
-        }
-      </View>
+      <FlatList
+        data={tasks}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
+        style={styles.listContainer}
+      />
     </View>
   );
 }
@@ -77,7 +82,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFE6E8',
     marginBottom: 15,
     paddingVertical: 20,
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
     borderRadius: 10,
   },
   itemList: {
