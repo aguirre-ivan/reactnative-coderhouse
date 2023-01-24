@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, View, Button, FlatList, Modal } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Button, FlatList, Modal, TouchableOpacity } from 'react-native';
 
 export default function App() {
   const [task, setTask] = useState('');
   const [tasks, setTasks] = useState([]);
-
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
 
   const onHandlerChange = (text) => {
     setTask(text);
@@ -21,12 +22,27 @@ export default function App() {
     setTask('');
   };
 
+  const onHandlerModal = (item) => {
+    setIsModalVisible(!isModalVisible);
+    setSelectedTask(item);
+  }
+
+  const onHandleDelete = (item) => {
+
+  }
+
+  const onHandleCancel = () => {
+    setIsModalVisible(!isModalVisible);
+    setSelectedTask(null);
+  }
+
   const renderItem = ({ item }) => (
-    <View style={styles.itemContainer}>
+    <TouchableOpacity style={styles.itemContainer}
+      onPress={() => onHandlerModal(item)}>
       <Text style={styles.itemList}>
         {item.value}
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 
   const keyExtractor = (item) => item.id;
@@ -55,6 +71,33 @@ export default function App() {
         keyExtractor={keyExtractor}
         style={styles.listContainer}
       />
+      <Modal visible={isModalVisible}
+        animationType='slide'
+      >
+        <View style={styles.modalContainer}>
+          <Text style={styles.modalTitle} >
+            Task Detail
+          </Text>
+          <View style={styles.modalDetailContainer}>
+            <Text style={styles.modalDetailMessage}>
+              Are you sure to delete this item?
+            </Text>
+            <Text style={styles.selectedTask}>
+              {selectedTask?.value}
+            </Text>
+          </View>
+          <View style={styles.modalButtonContainer}>
+            <Button title='Cancel'
+              color='#ACD8AA'
+              onPress={onHandleCancel}>
+            </Button>
+            <Button title='Delete'
+              color='#F48498'
+              onPress={onHandleDelete}>
+            </Button>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -88,5 +131,34 @@ const styles = StyleSheet.create({
   itemList: {
     fontSize: 20,
     fontWeight: 'bold'
+  },
+  modalContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 50
+  },
+  modalTitle: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginBottom: 10
+  },
+  modalDetailContainer: {
+    paddingVertical: 20
+  },
+  modalDetailMessage: {
+    fontSize: 15,
+  },
+  selectedTask: {
+    fontSize: 20,
+    color: "#F48498",
+    fontWeight: 'bold',
+    paddingTop: 20,
+    textAlign: 'center'
+  },
+  modalButtonContainer: {
+    width: '70%',
+    flexDirection: 'row',
+    marginHorizontal: 20,
+    justifyContent: 'space-around'
   }
 });
