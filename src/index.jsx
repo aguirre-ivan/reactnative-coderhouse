@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, View, Button, FlatList, Modal, TouchableOpacity } from 'react-native';
 
-export default function App() {
+const App = () => {
   const [task, setTask] = useState('');
   const [tasks, setTasks] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -102,6 +102,8 @@ export default function App() {
     </View>
   );
 }
+
+export default App;
 
 const styles = StyleSheet.create({
   container: {
