@@ -1,3 +1,3 @@
-# Task App
+# Number game
 
 ![Screenshot](screenshot.jpeg)
