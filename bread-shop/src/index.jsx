@@ -1,6 +1,5 @@
 import { useFonts } from 'expo-font';
 import { View, ActivityIndicator } from 'react-native';
-
 import { THEME } from './constants/theme';
 import AppNavigator from './navigation';
 import { styles } from './styles';
